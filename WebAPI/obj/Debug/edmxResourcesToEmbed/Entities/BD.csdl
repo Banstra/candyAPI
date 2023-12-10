@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SoldatovaCRUDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="EntryHistory">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Worker" Relationship="Self.FK_EntryHistory_Worker" FromRole="EntryHistory" ToRole="Worker" />
+  </EntityType>
+  <EntityType Name="EntryType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Workers" Relationship="Self.FK_Worker_EntryType" FromRole="EntryType" ToRole="Worker" />
+  </EntityType>
+  <EntityType Name="Merch">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="cost" Type="Int32" Nullable="false" />
+    <Property Name="sale" Type="Int32" />
+    <Property Name="picture" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="OrderMerches" Relationship="Self.FK_OrderMerch_Merch" FromRole="Merch" ToRole="OrderMerch" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DateOrder" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DateArrive" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Arrived" Type="Boolean" Nullable="false" />
+    <Property Name="Place" Type="Int32" Nullable="false" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="Amount" Type="Int32" />
+    <Property Name="Cost" Type="Int32" />
+    <Property Name="Code" Type="Int32" />
+    <Property Name="Sale" Type="Int32" />
+    <Property Name="MerchID" Type="Int32" />
+    <NavigationProperty Name="Place1" Relationship="Self.FK_Order_Places1" FromRole="Order" ToRole="Places" />
+    <NavigationProperty Name="OrderMerches" Relationship="Self.FK_OrderMerch_Order1" FromRole="Order" ToRole="OrderMerch" />
+  </EntityType>
+  <EntityType Name="OrderMerch">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="MerchID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Merch" Relationship="Self.FK_OrderMerch_Merch" FromRole="OrderMerch" ToRole="Merch" />
+    <NavigationProperty Name="Order" Relationship="Self.FK_OrderMerch_Order1" FromRole="OrderMerch" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Place">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Place1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Places1" FromRole="Places" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="roleTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Workers" Relationship="Self.FK_Worker_Role" FromRole="Role" ToRole="Worker" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Worker">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleID" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="Entry" Type="Int32" Nullable="false" />
+    <Property Name="Picture" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="EntryHistories" Relationship="Self.FK_EntryHistory_Worker" FromRole="Worker" ToRole="EntryHistory" />
+    <NavigationProperty Name="EntryType" Relationship="Self.FK_Worker_EntryType" FromRole="Worker" ToRole="EntryType" />
+    <NavigationProperty Name="Role" Relationship="Self.FK_Worker_Role" FromRole="Worker" ToRole="Role" />
+  </EntityType>
+  <Association Name="FK_EntryHistory_Worker">
+    <End Role="Worker" Type="Self.Worker" Multiplicity="1" />
+    <End Role="EntryHistory" Type="Self.EntryHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Worker">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="EntryHistory">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Worker_EntryType">
+    <End Role="EntryType" Type="Self.EntryType" Multiplicity="1" />
+    <End Role="Worker" Type="Self.Worker" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntryType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Worker">
+        <PropertyRef Name="Entry" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderMerch_Merch">
+    <End Role="Merch" Type="Self.Merch" Multiplicity="1" />
+    <End Role="OrderMerch" Type="Self.OrderMerch" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Merch">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="OrderMerch">
+        <PropertyRef Name="MerchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Places1">
+    <End Role="Places" Type="Self.Place" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Places">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="Place" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderMerch_Order1">
+    <End Role="Order" Type="Self.Order" Multiplicity="1" />
+    <End Role="OrderMerch" Type="Self.OrderMerch" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="OrderMerch">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Worker_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="1" />
+    <End Role="Worker" Type="Self.Worker" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Worker">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SoldatovaCRUDEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="EntryHistories" EntityType="Self.EntryHistory" />
+    <EntitySet Name="EntryTypes" EntityType="Self.EntryType" />
+    <EntitySet Name="Merches" EntityType="Self.Merch" />
+    <EntitySet Name="Orders" EntityType="Self.Order" />
+    <EntitySet Name="OrderMerches" EntityType="Self.OrderMerch" />
+    <EntitySet Name="Places" EntityType="Self.Place" />
+    <EntitySet Name="Roles" EntityType="Self.Role" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Workers" EntityType="Self.Worker" />
+    <AssociationSet Name="FK_EntryHistory_Worker" Association="Self.FK_EntryHistory_Worker">
+      <End Role="Worker" EntitySet="Workers" />
+      <End Role="EntryHistory" EntitySet="EntryHistories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Worker_EntryType" Association="Self.FK_Worker_EntryType">
+      <End Role="EntryType" EntitySet="EntryTypes" />
+      <End Role="Worker" EntitySet="Workers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderMerch_Merch" Association="Self.FK_OrderMerch_Merch">
+      <End Role="Merch" EntitySet="Merches" />
+      <End Role="OrderMerch" EntitySet="OrderMerches" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Places1" Association="Self.FK_Order_Places1">
+      <End Role="Places" EntitySet="Places" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderMerch_Order1" Association="Self.FK_OrderMerch_Order1">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderMerch" EntitySet="OrderMerches" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Worker_Role" Association="Self.FK_Worker_Role">
+      <End Role="Role" EntitySet="Roles" />
+      <End Role="Worker" EntitySet="Workers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
